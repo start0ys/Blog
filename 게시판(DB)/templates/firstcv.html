@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판 공부</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+        }
+
+        h1 {
+            text-align: center;
+            padding-top: 20px;
+            padding-bottom: 8px;
+        }
+
+        .header {
+            margin: 0 auto;
+            width: 80%;
+            background-color: rgb(121 209 197);
+            color: rgb(241 253 255);
+
+        }
+
+        .header h5 {
+            padding-bottom: 20px;
+        }
+
+        .left {
+            float: left;
+        }
+
+        li {
+            list-style-type: none;
+        }
+
+        .subMenu {
+            padding: 0;
+            visibility: hidden;
+            background-color: rgb(148 220 209);
+            box-shadow: 3px 3px 3px black;
+            /* box-shadow: 5px gray; */
+
+            position: absolute;
+        }
+
+        .subMenu li {
+
+            padding: 8px;
+        }
+
+        .subMenu li:hover {
+            background-color: rgb(121 209 197);
+            color: white;
+
+        }
+
+        .menu {
+            margin-left: 8px;
+            padding: 8px;
+        }
+
+        .menu:hover {
+            background-color: rgb(121 209 197);
+            color: white;
+        }
+
+
+
+        .center {
+            width: 80%;
+            margin: 0 auto;
+            padding: 10px 0;
+
+            background-color: rgb(148 220 209);
+
+        }
+
+        .ps {
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgb(241 253 255);
+        }
+
+        .album {
+            border: 2px dotted black;
+            width: 80%;
+            margin: 0 auto;
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+
+        }
+
+        img {
+            text-align: center;
+            width: 70%;
+            height: 400px;
+
+
+
+
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        h5 {
+            text-align: center;
+        }
+
+        .subMenu a {
+            text-decoration: none;
+            color: rgb(241 253 255);
+        }
+
+        .subMenu a:hover {
+            color: white;
+        }
+
+        h1 a {
+            text-decoration: none;
+            color: rgb(241 253 255);
+        }
+
+        h1 a:hover {
+            color: rgb(241 253 255);
+        }
+
+        .albumPage {
+            width: 90%;
+
+
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        h4 {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+
+
+
+
+
+
+
+
+        #upBtn {
+            bottom: 9%;
+            right: 3%;
+
+
+            font-size: 30px;
+            position: fixed;
+            border: 2px solid black;
+            padding: 0.4% 1%;
+            color: rgb(241 253 255);
+
+            background-color: rgb(121 209 197);
+        }
+
+        .albumHeader {
+
+            padding-top: 25px;
+            padding-bottom: 25px;
+        }
+
+        .pageCenter {
+            text-align: center;
+        }
+
+        .hiddenText {
+            display: none;
+
+        }
+
+        .inputtxt {
+            border: 1px dotted black;
+            margin-top: 5%;
+        }
+
+        .left {
+            float: left;
+            margin-left: 5%;
+
+        }
+
+        .inputComment {
+            margin-top: 1%;
+            text-align: center
+        }
+
+        #content {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+            margin-bottom: 0;
+
+        }
+
+        .btnFix {
+            width: 90%;
+            margin: 0 auto;
+
+        }
+
+        #submitBtn {
+            margin-left: -10px;
+            margin-top: 0;
+            margin-bottom: 3%;
+            background-color: white;
+            border: 1px dotted black;
+            padding: 7px;
+
+        }
+
+        .getComment {
+            margin: 0 auto;
+            border-bottom: 1px dotted black;
+            margin-top: 1%;
+            width: 90%;
+
+
+        }
+
+        .getWriter {
+            float: left;
+            font-size: 17px;
+            font-weight: bold;
+
+        }
+
+        .getTxt {
+            margin-top: 1%;
+        }
+
+        .createDate {
+            font-size: 13px;
+            color: gray;
+        }
+
+        .comment {
+            background-color: rgb(148 220 209);
+            margin-bottom: 12%;
+        }
+
+        #modify {
+            background-color: rgb(148 220 209);
+            border: 0;
+        }
+
+        #btnX {
+            background-color: rgb(148 220 209);
+            border: 0;
+        }
+
+        .details {
+            float: right;
+
+
+        }
+
+        #detailBtn {
+            background-color: rgb(148 220 209);
+            border: 0;
+        }
+
+        #mdBtn {
+
+            background-color: white;
+            border: 1px dotted black;
+            padding: 7px;
+            margin-left: 10px;
+            margin-top: 0;
+
+        }
+
+        #mdContent {
+            width: 90%;
+            padding: 10px;
+            margin: 10px;
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header" id="firstFocus">
+
+        <h1><a href="{{url_for('index')}}">시작의 결과물</a></h1>
+        <h5>여태 시작이 공부한 내용들을 페이지로 만들어보자</h5>
+    </div>
+
+    <div class="center">
+
+        <ul class="ps">
+            <li class="left">
+                <span class="menu">서비스들</span>
+                <ul class="subMenu">
+                    <li><a href="https://blog.naver.com/rladbtjq18/222225938152" target="_blank ">동물상 테스트(클론코딩)</a></li>
+                    <li><a href="{{url_for('cvwt')}}">코로날씨</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222258496426" target="_blank ">기념일 계산</a></li>
+
+                </ul>
+            </li>
+            <li class="left">
+                <span class="menu">파이썬</span>
+                <ul class="subMenu">
+                    <li><a href="https://blog.naver.com/rladbtjq18/222192490882" target="_blank ">게임 개발</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222196515672" target="_blank ">GUI프로그래밍</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222209598522" target="_blank ">웹 스크래핑</a></li>
+
+                </ul>
+            </li>
+            <li class="left">
+                <span class="menu">Oracle</span>
+                <ul class="subMenu">
+
+                    <li><a href="https://blog.naver.com/rladbtjq18/222269819447" target="_blank ">설치하기</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222271351532" target="_blank ">기본 문법</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222272336433" target="_blank ">기본 함수</a></li>
+
+                </ul>
+            </li>
+            <li class="left">
+                <span class="menu">JavaScript</span>
+                <ul class="subMenu">
+
+                    <li><a href="https://blog.naver.com/rladbtjq18/222285337571" target="_blank ">기본 문법</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222278833878" target="_blank ">시계 만들기</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222279905576" target="_blank ">ToDoList 만들기</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222286198521" target="_blank ">계산기 만들기</a></li>
+                </ul>
+            </li>
+            <li class="left">
+                <span class="menu">기타 공부</span>
+                <ul class="subMenu">
+
+                    <li><a href="https://blog.naver.com/rladbtjq18/222243399647" target="_blank ">FireBase 기초</a></li>
+                    <li><a href="https://blog.naver.com/rladbtjq18/222230762378" target="_blank ">Flask 기초</a></li>
+
+                </ul>
+            </li>
+
+
+        </ul>
+
+
+    </div>
+    <div class="album">
+        <div class="albumPage">
+            <div class="albumHeader">
+
+                <h2>[웹 개발] 코로날씨 -앱 출시</h2>
+                <h4>로그인 후 DB를 이용한 메모기능을 local storage를 통한 메모기능으로 바꾼 뒤 정식 앱 출시 승인</h4>
+            </div>
+            <hr>
+            <div class="pageCenter">
+                <br><br>저번에 코로날씨를 앱으로 만들어 출시를 하려 했으나<br>
+
+                로그인과 회원가입 기능이 있는데 개인 정보보호 지침을 표시하지 않아서
+
+                출시가 반려되었었다.<br>
+
+                그러고 나서 공부를 하다가 local storage를 알게 되어 local storage를 이용하여 메모 기능을 구현하고<br>
+
+                로그인과 회원가입 기능을 제거하였다,<br><br>
+
+                그런 다음 다시 원 스토어에 앱을 출시 신청하였는데 드디어 내가 만든 앱이 원 스토어에 출시되었다.<br>
+
+                원 스토어에 출시한 이유는 다른 스토어에 출시하는 것은 유료지만 원 스토어는 무료이기 때문이다.<br>
+                React Native를 통해 앱으로 만들고, 원 스토어에 출시하는 방법은 이전에 올렸었다.<br><br>
+                <div><img src="static/img/21.jpg" alt=""></div><br>
+                이렇게 원 스토어에 코로날씨를 검색하면 내가 만든 앱을 다운로드할 수 있다.<br>
+                <div><img src="static/img/22.png" alt=""></div><br>
+                네이버에 코로날씨를 검색하면 앱정보와 웹정보가 보인다.<br>
+                <br><br>드디어 열심히 만든 나의 서비스를 앱으로 만들어 스토어에 출시하였다.<br>
+
+                많이 부족하여 실제 사용자들이 많이 있을 거라고는 생각하지 않지만<br>
+
+                앱을 실제로 출시해봤다는 경험을 얻어서 뿌듯하다.<br>
+
+                ​
+
+                ​
+
+                <br><br>매일매일 늘 새로운 시작.<br><br><br>
+
+
+                <a href="https://m.onestore.co.kr/mobilepoc/apps/appsDetail.omp?prodId=0000754311">코로날씨 다운받으러 가기</a>
+                <br><br><br>
+            </div>
+
+            <div class="comment">
+                {% if data %}
+                {% for a in data%}
+                <div class="getComment">
+                    <div class="getWriter">👤{{a[1]}}</div>
+                    <span>
+
+                        <ul class="details">
+                            <button id="detailBtn" class="menu">⋮</button>
+                            <div class="subMenu">
+
+                                <li><button id="modify" onclick="modify('{{a[0]}}' ,'{{a[3]}}')">수정</button></li>
+                                <li><button id="btnX" onclick="clickX('{{a[0]}}' ,'{{a[3]}}')">삭제</button></li>
+                            </div>
+                        </ul>
+                    </span>
+                    <br>
+                    <div class="getTxt">{{a[2]}}</div>
+                    <div class="createDate">{{a[4]}}</div>
+
+                    <div class="hiddenText" id="a{{a[0]}}">
+                        <form action="/modify/" method="POST">
+
+                            <div><textarea name="mdContent" id="mdContent" autofocus required cols="30" rows="10"
+                                    placeholder="댓글을 수정해주세요"></textarea></div>
+
+                            <input type="hidden" name="id" id="id" value="{{a[0]}}">
+
+                            <div><input type="submit" value="수정" id="mdBtn"></div>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif%}
+
+
+                <div class="inputtxt">
+                    <form action="/firstcv" method="POST">
+                        <div>
+                            <span class="left"><label for="name">닉네임 : </label><input type="text" id="name" name="name"
+                                    required placeholder="닉네임을 작성해주세요"></span>
+                            <span class="left"><label for="password">비밀번호 : </label><input type="password" id="password"
+                                    name="password" required placeholder="비밀번호를 입력해주세요">
+                            </span>
+                        </div>
+                        <div class="inputComment">
+                            <textarea name="content" id="content" required cols="30" rows="10"
+                                placeholder="댓글을 입력해주세요"></textarea>
+                        </div>
+                        <div class="btnFix"><input type="submit" value="등록" id="submitBtn"></div>
+
+                    </form>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+    <button id="upBtn" onclick="document.getElementById('firstFocus').scrollIntoView();">△</button>
+
+
+
+
+
+    <script>
+        var menu = document.querySelectorAll(".menu");
+        var subMenu = document.querySelectorAll(".subMenu");
+
+
+        for (var i = 0; i < menu.length; i++) {
+            HiddenVisible(i);
+
+        }
+
+
+        function HiddenVisible(i) {
+
+            menu[i].addEventListener("mouseout", function () {
+                subMenu[i].style.visibility = "hidden";
+            });
+
+            menu[i].addEventListener("mouseover", function () {
+                subMenu[i].style.visibility = "visible";
+            });
+            subMenu[i].addEventListener("mouseout", function () {
+                subMenu[i].style.visibility = "hidden";
+            });
+
+            subMenu[i].addEventListener("mouseover", function () {
+                subMenu[i].style.visibility = "visible";
+            });
+
+
+        }
+
+
+
+        function clickX(id, pw) {
+
+            const inputPw = prompt("작성한 댓글의 비밀번호를 입력해주세요")
+            if (pw == inputPw) {
+                location.href = '/delete/?id=' + id;
+
+            } else {
+                alert("비밀번호가 일치하지 않습니다.")
+            }
+        }
+
+        function modify(id, pw) {
+
+            const inputPw = prompt("작성한 댓글의 비밀번호를 입력해주세요")
+            if (pw == inputPw) {
+                var a = "a" + id;
+
+                var content = document.getElementById(a);
+                content.style.display = "block";
+
+
+            } else {
+                alert("비밀번호가 일치하지 않습니다.")
+            }
+        }
+
+
+
+
+
+    </script>
+
+
+</body>
+
+</html>
